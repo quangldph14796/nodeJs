@@ -9,7 +9,7 @@ const check = (req, res, next) => {
     console.log("Anh có cái nịt");
   }
 };
-router.get("/api/products", check, (req, res) => {
+router.post("/api/products", check, (req, res, next) => {
   const products = [
     { id: 1, name: "Hảo Hán 1" },
     { id: 2, name: "Hảo Hán 2" },
