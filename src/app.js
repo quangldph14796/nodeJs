@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import productRoute from "../routes/product";
+import productRoute from "../routers/product";
 
 const app = express();
 // middleware
