@@ -19,7 +19,7 @@ mongoose
   .then(() => console.log("Connected successfully"))
   .catch((error) => console.log("error"));
 //connection
-const PORT = 3001;
+const PORT = 4040;
 app.listen(PORT, () => {
   console.log("Server is running port", PORT);
 });

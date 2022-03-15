@@ -1,12 +1,14 @@
-import mongoose from "mongoose";
-//1. khởi tạo model
-const Product = mongoose.model("Product", { name: String });
-
-export const list = (req, res) => {
-  res.json(products);
-};
-export const read = (req, res) => {
-  res.json(products.find((item) => item.id === +req.params.id));
+import Product from "../models/product";
+export const read = async (req, res) => {
+  const filter = { _id: req.params.id };
+  try {
+    const product = await Product.findOne(filter);
+    res.json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: "Lỗi không tìm được sản phẩm",
+    });
+  }
 };
 //API thêm sản phẩm
 export const create = async (req, res) => {
@@ -16,14 +18,42 @@ export const create = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: "hong bé ơi" });
   }
-  //   const product = req.body;
-  //   res.json(product);
 };
-export const remove = (req, res) => {
-  res.json(products.filter((item) => item.id !== +req.params.id));
+//API list sản phẩm
+export const list = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(400).json({
+      message: "Lỗi không tìm được sản phẩm",
+    });
+  }
 };
-export const update = (req, res) => {
-  res.json(
-    products.map((item) => (item.id == req.params.id ? req.body : item))
-  );
+export const remove = async (req, res) => {
+  const condition = { _id: req.params.id };
+  try {
+    const product = await Product.findOneAndDelete(condition);
+    res.json({
+      message: "Done",
+      data: product,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Lỗi không tìm được sản phẩm",
+    });
+  }
+};
+export const update = async (req, res) => {
+  const condition = { _id: req.params.id };
+  const doc = req.body;
+  const options = { new: true };
+  try {
+    const product = await Product.findOneAndUpdate(condition, doc, options);
+    res.json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: "Lỗi không tìm được sản phẩm",
+    });
+  }
 };
