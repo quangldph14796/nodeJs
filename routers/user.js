@@ -1,5 +1,5 @@
-import { Router } from " express";
-import { signin } from "../controllers/user";
-import { checkAuth } from "../middlewares/checkAuth";
+import { Router } from "express";
+import { signup } from "../controllers/user";
 const router = Router();
-router.post("/users", checkAuth, signin);
+router.post("/signup", signup);
+export default router;

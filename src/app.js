@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 //route
 import productRoute from "../routers/product";
+import userRoute from "../routers/user";
 
 const app = express();
 // middleware
@@ -13,6 +14,7 @@ app.use(morgan("tiny"));
 app.use(express.json());
 //route
 app.use("/api", productRoute);
+app.use("/user", userRoute);
 //connect db
 mongoose
   .connect("mongodb://localhost:27017/we16309")
