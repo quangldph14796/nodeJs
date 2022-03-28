@@ -1,18 +1,47 @@
 import mongoose, { Schema } from "mongoose";
-const userSchema = new Schema({
-  username: {
-    type: String,
-    minLength: 5,
-    // match: [
-    //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-    //   "Please fill a valid email address",
-    // ],
+import { createHmac } from "crypto";
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      maxLength: 30,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    salt: {
+      type: String,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: Number,
+      default: 0,
+    },
   },
-  password: {
-    type: String,
-    // lowercase: true,
-    minLength: 6,
-    maxLength: 30,
+  { timestamps: true }
+);
+
+userSchema.methods = {
+  authenticate(password) {
+    return this.password == this.encrytPassword(password);
   },
+  encrytPassword(password) {
+    if (!password) return;
+    try {
+      return createHmac("sha256", "abcs").update(password).digest("hex");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+};
+
+userSchema.pre("save", function (next) {
+  this.password = this.encrytPassword(this.password);
+  next();
 });
 export default mongoose.model("User", userSchema);
