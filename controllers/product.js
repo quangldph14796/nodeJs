@@ -62,3 +62,6 @@ export const update = async (req, res) => {
     });
   }
 };
+export const search = async (req, res) => {
+  
+}
