@@ -9,10 +9,10 @@ import {
 } from "../middlewares/checkAuth";
 const router = Router();
 router.get("/products", checkAuth, list);
-router.get("/product/:id", checkAuth, read);
+router.get("/products/:id", checkAuth, read);
 router.post("/products/:userId", requireSignin, isAuth, isAdmin, create);
-router.delete("/product/:id", checkAuth, remove);
-router.patch("/product/:id", checkAuth, update);
+router.delete("/products/:id", checkAuth, remove);
+router.patch("/products/:id", checkAuth, update);
 
 router.param("userId", userById);
 
